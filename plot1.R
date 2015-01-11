@@ -46,6 +46,8 @@ for (iter in 1:2) {
         # now make the png graph 
         png(filename="plot1.png",width=480,height=480)
     }
+    # make 1 subplot 
+    par(mfrow = c(1, 1))
     hist(globalActivePower,col="red",xlab="Global Active Power (kilowatts)",ylab="Frequency",main="Global Active Power")
     # set ticks on x-axis
     axis(1,c(0,2,4,6))

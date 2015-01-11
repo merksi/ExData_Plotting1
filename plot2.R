@@ -54,8 +54,10 @@ for (iter in 1:2) {
         # now make the png graph 
         png(filename="plot2.png",width=480,height=480)
     }
+    # make 1 subplot 
+    par(mfrow = c(1, 1))    
     # plot data
-    plot(relDateTimeStampN,globalActivePower,xaxt="n",col="black",pch=".",type="o",xlab="",ylab="Global Active Power (kilowatts)",main="")
+    plot(relDateTimeStampN,globalActivePower,xaxt="n",col="black",pch=".",type="l",xlab="",ylab="Global Active Power (kilowatts)",main="")
     # set ticks on x-axis
     axis(1,at=c(0,1,2),labels=c("Thu","Fri","Sat"))        
     # set ticks on y-axis

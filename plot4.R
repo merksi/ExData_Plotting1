@@ -1,7 +1,7 @@
 #
 #
-# plot3.R
-# Description: function to make plot3 for 1st course project of 
+# plot4.R
+# Description: function to make plot4 for 1st course project of 
 # exploratory data analysis 
 # Author: Ivo Merks 
 
@@ -36,6 +36,18 @@ pos=(dataDate==date1 | dataDate==date2)
 # select data of certain dates
 dataPos<-data[pos,]
 # select Global Active Power data
+globalActivePower<-dataPos$Global_active_power
+# convert to numeric
+globalActivePower<-as.numeric(as.character(globalActivePower))
+# select Voltage data
+voltage<-dataPos$Voltage
+# convert to numeric
+voltage<-as.numeric(as.character(voltage))
+# select Global Reactive Power data
+globalReactivePower<-dataPos$Global_reactive_power
+# convert to numeric
+globalReactivePower<-as.numeric(as.character(globalReactivePower))
+# select sub metering data
 subMetering1<-dataPos$Sub_metering_1
 subMetering2<-dataPos$Sub_metering_2
 subMetering3<-dataPos$Sub_metering_3
@@ -56,11 +68,23 @@ relDateTimeStampN<-as.numeric(relDateTimeStamp)
 for (iter in 1:2) {
     if (iter==2){
         # now make the png graph 
-        png(filename="plot3.png",width=480,height=480)
+        png(filename="plot4.png",width=480,height=480)
     }
-    # make 1 subplot 
-    par(mfrow = c(1, 1))    
-    # plot data
+    # make 4 subplots 
+    par(mfrow = c(2, 2))
+    # plot data - top left
+    plot(relDateTimeStampN,globalActivePower,xaxt="n",col="black",pch=".",type="l",xlab="",ylab="Global Active Power",main="")
+    # set ticks on x-axis
+    axis(1,at=c(0,1,2),labels=c("Thu","Fri","Sat"))        
+    # set ticks on y-axis
+    axis(2,c(0,2,4,6))            
+    # plot data - top right
+    plot(relDateTimeStampN,voltage,xaxt="n",col="black",pch=".",type="l",xlab="datetime",ylab="Voltage",main="")
+    # set ticks on x-axis
+    axis(1,at=c(0,1,2),labels=c("Thu","Fri","Sat"))        
+    # set ticks on y-axis
+    axis(2,c(234,238,242,246))                
+    # plot data - bottom left
     plot(relDateTimeStampN,subMetering1,xaxt="n",col="black",pch=".",type="l",xlab="",ylab="Energy sub metering",main="")
     lines(relDateTimeStampN,subMetering2,col="red")
     lines(relDateTimeStampN,subMetering3,col="blue")     
@@ -69,7 +93,13 @@ for (iter in 1:2) {
     # set ticks on y-axis
     axis(2,c(0,10,20,30))        
     # add legend 
-    legend("topright", lty=c(1,1,1), col = c("black", "red","blue"), legend = c("Sub_metering_1", "Sub_metering_2","Sub_metering_3"))
+    legend("topright", lty=c(1,1,1), col = c("black", "red","blue"),bty="n",legend = c("Sub_metering_1", "Sub_metering_2","Sub_metering_3"))
+    # plot data - bottom right
+    plot(relDateTimeStampN,globalReactivePower,xaxt="n",col="black",pch=".",type="l",xlab="datetime",ylab="Global_Reactive_power",main="")
+    # set ticks on x-axis
+    axis(1,at=c(0,1,2),labels=c("Thu","Fri","Sat"))        
+    # set ticks on y-axis
+    axis(2,c(0.0,0.1,0.2,0.3,0.4,0.5))                    
     # shut off graph 
     if(iter==2){
         # shut 
