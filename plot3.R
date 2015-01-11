@@ -1,7 +1,7 @@
 #
 #
-# plot1.R
-# Description: function to make plot1 for 1st course project of 
+# plot3.R
+# Description: function to make plot3 for 1st course project of 
 # exploratory data analysis 
 # Author: Ivo Merks 
 
