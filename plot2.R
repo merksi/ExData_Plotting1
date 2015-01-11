@@ -33,27 +33,36 @@ date1<-as.Date("2007-02-01",format="%Y-%m-%e")
 date2<-as.Date("2007-02-02",format="%Y-%m-%e")
 # find entries of correct dates
 pos=(dataDate==date1 | dataDate==date2)
+# select data of certain dates
+dataPos<-data[pos,]
 # select Global Active Power data
-globalActivePower<-data$Global_active_power
-# select dates
-globalActivePower<-globalActivePower[pos]
-# convert ot numerix
+globalActivePower<-dataPos$Global_active_power
+# convert to numeric
 globalActivePower<-as.numeric(as.character(globalActivePower))
+# select date and timestamp and put them together in one character array 
+dateTimeStampStr<-paste(as.character(dataPos$Date),as.character(dataPos$Time))
+# convert them to one time stamp
+dateTimeStamp<-strptime(dateTimeStampStr, "%d/%m/%Y %H:%M:%S")
+# calculate difference relative to first timestamp in days
+relDateTimeStamp<- difftime(dateTimeStamp[1:length(dateTimeStamp)],dateTimeStamp[1],unit="days")
+# convert to numeric
+relDateTimeStampN<-as.numeric(relDateTimeStamp)
 # make graph
 # once on screen, second to the graph 
 for (iter in 1:2) {
     if (iter==2){
         # now make the png graph 
-        png(filename="plot1.png",width=480,height=480)
+        png(filename="plot2.png",width=480,height=480)
     }
-    hist(globalActivePower,col="red",xlab="Global Active Power (kilowatts)",ylab="Frequency",main="Global Active Power")
+    # plot data
+    plot(relDateTimeStampN,globalActivePower,xaxt="n",col="black",pch=".",type="o",xlab="",ylab="Global Active Power (kilowatts)",main="")
     # set ticks on x-axis
-    axis(1,c(0,2,4,6))
+    axis(1,at=c(0,1,2),labels=c("Thu","Fri","Sat"))        
     # set ticks on y-axis
-    axis(2,c(0,200,400,600,800,1000,1200))   
+    axis(2,c(0,2,4,6))        
+    # shut off graph 
     if(iter==2){
         # shut 
         dev.off()
     }
 }
-
